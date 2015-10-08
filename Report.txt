@@ -1,0 +1,193 @@
+Name: Garman Liu
+Usercode: liugarm
+ID number: 300251406
+
+********
+REPORT:
+********
+
+***********************************
+1. Basic A* search on road data
+***********************************
+
+My program is able to find the shortest route from one point to another.
+
+
+***********************************
+2. Articulation Points
+***********************************
+
+My program constructs a list of neighbour nodes for each node and stores them in the node class.
+
+My program also finds all the articulation points. 
+
+
+***********************************
+3. Class, Speed
+***********************************
+
+I have added a speed and a distance button so users can choose between if they want
+a faster time, or a shorter distance. I have included the road class and speed limit
+information to prefer routes depending on what mode the user selected. 
+
+
+************************************************
+4. Further improvements to the route finding
+************************************************
+
+The information output will merge roads together, so there will be no copies of roads
+displaying when finding a route in the information. I have also included the total
+length.
+
+I have also considered Restriction information, so users cannot go certain routes which
+are restricted in the data.
+
+I have not implemented traffic light information. 
+
+------------------------------------------------------------------------------------------------------------------------------
+***********************************
+A* Search Algorithm Pseudo code:
+***********************************
+
+if node list is not empty and first and last nodes are selected
+	set aSearched to true
+	
+	startToEnd = estimated cost from start node to end node
+
+	set all nodes to not visited
+
+	initalise PriorityQueue<PriorityNode> with new comparator
+
+	intialise lastNode to null
+
+
+	queue.offer(<firstNode, null, 0, startToEnd)
+	
+	while !queue.isEmpty
+
+		n = queue.poll()
+
+		if !n.visited
+			n.visited set true
+
+		if n = last node
+			lastNode = n
+			break
+
+		all: for all segments of n
+			store neighbour in neighbour
+
+			if restrictions are available
+				if first node, intersectionNode, last node and second segment match
+					iterate through segments and find the first second
+						if match, break all
+		
+		if !neighbourVisited
+			costToNeighbour = n.getCostToHere + seg.getLength
+			estTotal = costToNeighbour + estimated distance from current node to last node
+
+			queue.offer(<neighbour, n, costToNeighbour, estTotal)
+	
+
+
+	new List<PriorityNode> list
+	list.add(lastNode)
+	
+	while !lastNode.getFromNode.isEmpty
+		list.add(lastNode.getFromNode)
+		lastNode = lastNode.getFromNode
+
+	
+	for int i=0;i<list.size;i++
+		for all segments
+			if segment firstNode is equal to list.get(i) and secondNode is equal to list.get(i+1)
+				add to highlightList (should be initalised at the top of the class)
+
+	for int i=0;i<list.size;i++
+		print distance information
+------------------------------------------------------------------------------------------------------------------------------
+
+
+Path Cost = currentCost + estimated distance to lastNode
+Heuristic Estimate = estimated distance from current Node to lastNode
+
+
+------------------------------------------------------------------------------------------------------------------------------
+***********************************
+Articulation Points Pseudo code:
+***********************************
+
+public void findArticulationPoints(Node node)
+	set depth of all nodes to INTEGER.MAX_VALUE
+	
+	articulation points list clear
+
+	Node start = node
+	int numSubtrees = 0
+
+	set start depth to 0
+
+	for all neighbours of start
+		if depth == INTEGER.MAX_VALUE
+			recArtPts(neighbour, 1, start)
+			numSubtrees++
+
+	if numSubtrees > 1
+		articulation points list.add(start)
+
+
+public int recArtPts(Node node, int depth, Node fromNode)
+	node.setDepth(depth)
+	node set to visited
+	reachBack = depth
+	childReach = 0
+
+	for all neighbours of node
+		if neighbour!=fromNode
+			if neighbour depth < INTEGER.MAX_VALUE
+				reachBack = min(neighbour depth, reachBack)
+			else
+				childReach = recArtPts(neighbour, depth+1, node)
+				reachBack = min(childReach, reachBack)
+				if childReach>=depth
+					articulation pts list.add(node)
+
+
+
+	return reachBack
+
+
+
+
+
+
+
+
+
+
+
+
+I have tested the program on my home computer and at university and they both work. I have not run into any issues with all the things I have implemented.
+I implemented buttons so i could simply press buttons and they would highlight the nodes. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
